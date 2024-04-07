@@ -1,6 +1,4 @@
-import { useState ,useEffect } from "react"
-import { RecoilRoot, useRecoilState,useRecoilValue  } from 'recoil'
-import axios from "axios";
+import { useRecoilState } from 'recoil'
 import { useNavigate } from "react-router-dom";
 import { useratom,recieveratom } from "../atoms/atoms";
 

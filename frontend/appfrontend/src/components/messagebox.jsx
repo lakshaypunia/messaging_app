@@ -1,14 +1,15 @@
-import { useState ,useEffect } from "react"
-import { RecoilRoot, useRecoilState,useRecoilValue  } from 'recoil'
+import { useEffect,useState } from "react"
+import {  useRecoilState } from 'recoil'
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useratom,recieveratom,messagearrayatom,messageatom } from "../atoms/atoms";
+import { set } from "mongoose";
 
 export function Messaginbox(){
     const[userid,setuserid] = useRecoilState(useratom)
     const[recieverid,setrecieverid] = useRecoilState(recieveratom)
     const[message,setmessage] = useRecoilState(messageatom)
     const[messagearray,setmessagearry] = useRecoilState(messagearrayatom)
+
 
     useEffect(()=> {
         const fetchData = async()=> {
@@ -42,11 +43,14 @@ export function Messaginbox(){
             <MEssages message={messagearray} />
 
             <div style={{position: 'absolute', bottom: '20px', left: '0', width: '100%' }}>
-            <input style={{width: 'calc(100% - 120px)', padding: '10px', marginLeft: '10px', border: 'none', borderRadius: '5px', backgroundColor: 'rgba(255, 255, 255, 0.2)', color: 'white' }}     type="text" placeholder="message" onChange={(e) => {
+            <input value={message} style={{width: 'calc(100% - 120px)', padding: '10px', marginLeft: '10px', border: 'none', borderRadius: '5px', backgroundColor: 'rgba(255, 255, 255, 0.2)', color: 'white' }}     type="text" placeholder="message" onChange={(e) => {
                 setmessage(e.target.value)
             }}/>
 
             <button style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', transition: 'background-color 0.3s' }} onClick={async() =>{
+                    if (message ==""){
+                        return
+                    }
                     await axios.post("http://localhost:3000/send", {
                       message: message,
                       userid : userid,
@@ -55,6 +59,7 @@ export function Messaginbox(){
                 const res = await axios.post("http://localhost:3000/message",{userid : userid,
                 recieverid : recieverid})
                 setmessagearry(res.data.messages)
+                setmessage("")
 
             }}>send</button>
             </div>

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
-const { number } = require("zod")
-mongoose.connect("mongodb+srv://ashgamer7885:abjd234dhjhfh@cluster0.54kdedl.mongodb.net/messagingapp")
+mongoose.connect("your mongodb url")
 
 const messageidschema = mongoose.Schema({
     msgid : Number
